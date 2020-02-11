@@ -41,6 +41,7 @@
 #include "fsl_debug_console.h"
 /* TODO: insert other include files here. */
 #include "Control.h"
+#include "Matrix.h"
 /* TODO: insert other definitions and declarations here. */
 void ControlLaw();
 /*
@@ -57,11 +58,18 @@ int main(void) {
 
 
 
+
     Control::setSamplingFrequency(3);
     Control::setControlLawHandle(ControlLaw);
     Control::start();
 
-    CONTROLE_PRINT("Teste Controle API K64F");
+    //Teste de Matrizes
+    float a_data[] = {1,2,3,4};
+    Matrix A(2,2,a_data);
+    Matrix B(2,2);
+    A.Inverse(A, B);
+    B.Print();
+
 
 
     //Lei 1

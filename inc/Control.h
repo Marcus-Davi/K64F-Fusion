@@ -31,9 +31,9 @@ typedef void (*FunPt)();
 class Control {
 public:
 
-	class ADC;
-	class DAC;
-	class PWM;
+	class ADC; //Flata Implementar
+	class DAC; // Falta Implementar
+	class PWM; // Falta Implementar
 
 
 	static void setSamplingFrequency(float Hz);
