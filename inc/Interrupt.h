@@ -8,6 +8,7 @@
 #ifndef INTERRUPT_H_
 #define INTERRUPT_H_
 
+#include "Control.h"
 #include "fsl_pit.h"
 #include "peripherals.h"
 #include "board.h"

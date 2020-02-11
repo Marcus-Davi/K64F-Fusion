@@ -40,9 +40,9 @@
 #include "MK64F12.h"
 #include "fsl_debug_console.h"
 /* TODO: insert other include files here. */
-
+#include "Control.h"
 /* TODO: insert other definitions and declarations here. */
-
+void ControlLaw();
 /*
  * @brief   Application entry point.
  */
@@ -55,16 +55,28 @@ int main(void) {
   	/* Init FSL debug console. */
     BOARD_InitDebugConsole();
 
-    PRINTF("Hello World\n");
 
-    /* Force the counter to be placed into memory. */
-    volatile static int i = 0 ;
-    /* Enter an infinite loop, just incrementing a counter. */
+
+    Control::setSamplingFrequency(3);
+    Control::setControlLawHandle(ControlLaw);
+    Control::start();
+
+    CONTROLE_PRINT("Teste Controle API K64F");
+
+
+    //Lei 1
     while(1) {
-        i++ ;
-        /* 'Dummy' NOP to allow source level single stepping of
-            tight while() loop */
-        __asm volatile ("nop");
+
     }
-    return 0 ;
+
+
+    return 0;
 }
+
+
+//lei de Controle;
+void ControlLaw(){
+LED_BLUE_TOGGLE();
+
+}
+

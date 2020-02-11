@@ -6,7 +6,7 @@
  */
 
 
-#include "inc/Interrupt.h"
+#include "Interrupt.h"
 
 #if defined (__cplusplus)
 extern "C" {
@@ -14,8 +14,10 @@ extern "C" {
 
 /* PIT0_IRQn interrupt handler */
 void PIT_CHANNEL_0_IRQHANDLER(void) {
-  PIT_ClearStatusFlags(PIT_PERIPHERAL, kPIT_Chnl_0, kPIT_TimerFlag);
-  LED_BLUE_TOGGLE();
+	if(PIT_GetStatusFlags(PIT_PERIPHERAL, kPIT_Chnl_0)){
+	PIT_ClearStatusFlags(PIT_PERIPHERAL, kPIT_Chnl_0, kPIT_TimerFlag);
+	Control::runControl();
+	}
 }
 
 

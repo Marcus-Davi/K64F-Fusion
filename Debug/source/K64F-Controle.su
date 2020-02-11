@@ -1,1 +1,3 @@
+fsl_gpio.h:197:20:void GPIO_PortToggle(GPIO_Type*, uint32_t)	16	static
 K64F-Controle.cpp:49:5:int main()	8	static
+K64F-Controle.cpp:78:6:void ControlLaw()	8	static
