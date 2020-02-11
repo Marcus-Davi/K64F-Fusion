@@ -9,6 +9,7 @@ CPP_SRCS += \
 ../source/Interrupts.cpp \
 ../source/K64F-Fusion2.cpp \
 ../source/Matrix.cpp \
+../source/STBC.cpp \
 ../source/cpp_config.cpp 
 
 C_SRCS += \
@@ -20,6 +21,7 @@ OBJS += \
 ./source/Interrupts.o \
 ./source/K64F-Fusion2.o \
 ./source/Matrix.o \
+./source/STBC.o \
 ./source/cpp_config.o \
 ./source/semihost_hardfault.o 
 
@@ -29,6 +31,7 @@ CPP_DEPS += \
 ./source/Interrupts.d \
 ./source/K64F-Fusion2.d \
 ./source/Matrix.d \
+./source/STBC.d \
 ./source/cpp_config.d 
 
 C_DEPS += \

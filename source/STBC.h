@@ -1,17 +1,14 @@
 /*
- * FXOS.h
+ * STBC.h
  *
  *  Created on: 11 de fev de 2020
  *      Author: marcus
  */
 
-#ifndef IMU_H_
-#define IMU_H_
+#ifndef STBC_H_
+#define STBC_H_
 
-#define IMU_I2C I2C1
-
-
-/*Registradores*/
+/*STBC Device Registers*/
 #define FXOS_DEVADDR 0x1E
 #define FXAS_DEVADDR 0x20
 
@@ -42,5 +39,24 @@
 #define FXAS_CTRL_REG2 0x14
 #define FXAS_CTRL_REG3 0x15
 
+#include "I2C.h" // For IMU Pointers
+//This class handles communication with the sensor shield.
 
-#endif /* IMU_H_ */
+class STBC {
+public:
+	STBC( I2C* const FXASpt , I2C* const FXOSpt);
+	virtual ~STBC();
+
+	void Check();
+
+
+private:
+	const I2C* FXAS;
+	const I2C* FXOS;
+};
+
+
+
+
+
+#endif /* STBC_H_ */

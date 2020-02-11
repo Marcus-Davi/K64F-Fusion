@@ -43,8 +43,7 @@
 #include "Control.h"
 #include "Matrix.h"
 #include "I2C.h"
-#include "IMU.h"
-
+#include "STBC.h"
 /* TODO: insert other definitions and declarations here. */
 void ControlLaw();
 /*
@@ -66,11 +65,12 @@ int main(void) {
     Control::setControlLawHandle(ControlLaw);
     Control::start();
 
-    //Exemplo de I2C
-    I2C IMU_FXOS(IMU_I2C,FXOS_DEVADDR);
-    I2C IMU_FXAS(IMU_I2C,FXAS_DEVADDR);
+    I2C FXAS(I2C1,FXAS_DEVADDR);
+    I2C FXOS(I2C1,FXOS_DEVADDR);
 
-    uint8_t data;
+
+
+//    STBC IMU(&FXAS,&FXOS);
 
 
     //Teste de Matrizes

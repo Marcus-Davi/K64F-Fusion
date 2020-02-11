@@ -16,7 +16,7 @@ public:
 	virtual ~I2C();
 
 	status_t Write(uint32_t deviceReg,uint8_t* buffer,size_t data_length);
-	status_t Read(uint32_t deviceReg,uint8_t* buffer,size_t data_length);
+	status_t Read(uint32_t deviceReg,uint8_t* buffer,size_t data_length) const;
 
 
 
