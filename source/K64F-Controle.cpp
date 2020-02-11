@@ -42,6 +42,9 @@
 /* TODO: insert other include files here. */
 #include "Control.h"
 #include "Matrix.h"
+#include "I2C.h"
+#include "IMU.h"
+
 /* TODO: insert other definitions and declarations here. */
 void ControlLaw();
 /*
@@ -62,6 +65,13 @@ int main(void) {
     Control::setSamplingFrequency(3);
     Control::setControlLawHandle(ControlLaw);
     Control::start();
+
+    //Exemplo de I2C
+    I2C IMU_FXOS(IMU_I2C,FXOS_DEVADDR);
+    I2C IMU_FXAS(IMU_I2C,FXAS_DEVADDR);
+
+    uint8_t data;
+
 
     //Teste de Matrizes
     float a_data[] = {1,2,3,4};

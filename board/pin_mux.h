@@ -281,6 +281,12 @@ void BOARD_InitSDHCPins(void);
  */
 void BOARD_InitUSBPins(void);
 
+/*!
+ * @brief Configures pin routing and optionally pin electrical features.
+ *
+ */
+void I2C1_Pins(void);
+
 #if defined(__cplusplus)
 }
 #endif

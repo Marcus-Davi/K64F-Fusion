@@ -26,7 +26,10 @@ source/K64F-Controle.o source/K64F-Controle.d: \
  /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Controle/component/uart/uart.h \
  /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Controle/inc/Control.h \
  /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Controle/inc/Matrix.h \
- /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Controle/CMSIS/arm_math.h
+ /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Controle/CMSIS/arm_math.h \
+ /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Controle/inc/I2C.h \
+ /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Controle/drivers/fsl_i2c.h \
+ /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Controle/inc/IMU.h
 
 /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Controle/board/board.h:
 
@@ -81,3 +84,9 @@ source/K64F-Controle.o source/K64F-Controle.d: \
 /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Controle/inc/Matrix.h:
 
 /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Controle/CMSIS/arm_math.h:
+
+/home/marcus/Workspace/MCU/NXP/Workspace/K64F-Controle/inc/I2C.h:
+
+/home/marcus/Workspace/MCU/NXP/Workspace/K64F-Controle/drivers/fsl_i2c.h:
+
+/home/marcus/Workspace/MCU/NXP/Workspace/K64F-Controle/inc/IMU.h:

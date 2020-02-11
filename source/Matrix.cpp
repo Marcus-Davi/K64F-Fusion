@@ -82,5 +82,5 @@ void Matrix::Copy(Matrix const& A,Matrix &B){
 	int size = A.rows*A.columns;
 	for(int i=0;i<size;++i)
 		B.data[i] = A.data[i];
-}
 
+}

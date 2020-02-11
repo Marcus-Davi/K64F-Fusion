@@ -135,6 +135,7 @@ void BOARD_InitBootPins(void)
     BOARD_InitButtonsPins();
     BOARD_InitLEDsPins();
     BOARD_InitDEBUG_UARTPins();
+    I2C1_Pins();
 }
 
 /* clang-format off */
@@ -976,6 +977,52 @@ BOARD_InitUSBPins:
  * END ****************************************************************************************************************/
 void BOARD_InitUSBPins(void)
 {
+}
+
+/* clang-format off */
+/*
+ * TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+I2C1_Pins:
+- options: {callFromInitBoot: 'true', coreID: core0, enableClock: 'true'}
+- pin_list:
+  - {pin_num: '82', peripheral: I2C1, signal: SCL, pin_signal: ADC1_SE6b/PTC10/I2C1_SCL/FTM3_CH6/I2S0_RX_FS/FB_AD5, pull_select: up, pull_enable: enable}
+  - {pin_num: '83', peripheral: I2C1, signal: SDA, pin_signal: ADC1_SE7b/PTC11/LLWU_P11/I2C1_SDA/FTM3_CH7/I2S0_RXD1/FB_RW_b, pull_select: up, pull_enable: enable}
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
+ */
+/* clang-format on */
+
+/* FUNCTION ************************************************************************************************************
+ *
+ * Function Name : I2C1_Pins
+ * Description   : Configures pin routing and optionally pin electrical features.
+ *
+ * END ****************************************************************************************************************/
+void I2C1_Pins(void)
+{
+    /* Port C Clock Gate Control: Clock enabled */
+    CLOCK_EnableClock(kCLOCK_PortC);
+
+    /* PORTC10 (pin 82) is configured as I2C1_SCL */
+    PORT_SetPinMux(PORTC, 10U, kPORT_MuxAlt2);
+
+    PORTC->PCR[10] = ((PORTC->PCR[10] &
+                       /* Mask bits to zero which are setting */
+                       (~(PORT_PCR_PS_MASK | PORT_PCR_PE_MASK | PORT_PCR_ISF_MASK)))
+
+                      /* Pull Select: Internal pullup resistor is enabled on the corresponding pin, if the
+                       * corresponding PE field is set. */
+                      | (uint32_t)(kPORT_PullUp));
+
+    /* PORTC11 (pin 83) is configured as I2C1_SDA */
+    PORT_SetPinMux(PORTC, 11U, kPORT_MuxAlt2);
+
+    PORTC->PCR[11] = ((PORTC->PCR[11] &
+                       /* Mask bits to zero which are setting */
+                       (~(PORT_PCR_PS_MASK | PORT_PCR_PE_MASK | PORT_PCR_ISF_MASK)))
+
+                      /* Pull Select: Internal pullup resistor is enabled on the corresponding pin, if the
+                       * corresponding PE field is set. */
+                      | (uint32_t)(kPORT_PullUp));
 }
 /***********************************************************************************************************************
  * EOF

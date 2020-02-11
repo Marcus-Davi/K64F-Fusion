@@ -5,6 +5,7 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../source/Control.cpp \
+../source/I2C.cpp \
 ../source/Interrupts.cpp \
 ../source/K64F-Controle.cpp \
 ../source/Matrix.cpp \
@@ -15,6 +16,7 @@ C_SRCS += \
 
 OBJS += \
 ./source/Control.o \
+./source/I2C.o \
 ./source/Interrupts.o \
 ./source/K64F-Controle.o \
 ./source/Matrix.o \
@@ -23,6 +25,7 @@ OBJS += \
 
 CPP_DEPS += \
 ./source/Control.d \
+./source/I2C.d \
 ./source/Interrupts.d \
 ./source/K64F-Controle.d \
 ./source/Matrix.d \
