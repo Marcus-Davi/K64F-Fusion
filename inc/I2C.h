@@ -15,7 +15,7 @@ public:
 	I2C(I2C_Type* I2C_Peripheral,uint32_t _deviceAddr);
 	virtual ~I2C();
 
-	status_t Write(uint32_t deviceReg,uint8_t* buffer,size_t data_length);
+	status_t Write(uint32_t deviceReg,uint8_t* buffer,size_t data_length) const;
 	status_t Read(uint32_t deviceReg,uint8_t* buffer,size_t data_length) const;
 
 

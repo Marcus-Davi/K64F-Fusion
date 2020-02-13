@@ -30,7 +30,7 @@ I2C::~I2C() {
 }
 
 //Escrita (subendereço/registrador do dispositivo, dados, tamanho dos dados)
-status_t I2C::Write(uint32_t deviceReg,uint8_t* buffer,size_t data_length){
+status_t I2C::Write(uint32_t deviceReg,uint8_t* buffer,size_t data_length) const {
 	i2c_master_transfer_t xfer;
 	xfer.data = buffer;
 	xfer.dataSize = data_length;
@@ -39,7 +39,6 @@ status_t I2C::Write(uint32_t deviceReg,uint8_t* buffer,size_t data_length){
 	xfer.flags = kI2C_TransferDefaultFlag;
 	xfer.subaddressSize = 1;
 	xfer.direction = kI2C_Write;
-	Peripheral = I2C1; // test
 	return(I2C_MasterTransferBlocking(Peripheral, &xfer));
 
 }

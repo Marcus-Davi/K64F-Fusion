@@ -42,10 +42,15 @@
 /* TODO: insert other include files here. */
 #include "Control.h"
 #include "Matrix.h"
-#include "I2C.h"
-#include "STBC.h"
+#include "IMU.h"
+#include "Quaternion.h"
 /* TODO: insert other definitions and declarations here. */
 void ControlLaw();
+
+void inline Quaternion::Print(const Quaternion& q){
+CONTROLE_PRINT("%f %f %f %f\r\n",q.w,q.v.x,q.v.y,q.v.z);
+}
+
 /*
  * @brief   Application entry point.
  */
@@ -59,9 +64,7 @@ int main(void) {
     BOARD_InitDebugConsole();
 
 
-
-
-    Control::setSamplingFrequency(3);
+    Control::setSamplingFrequency(5);
     Control::setControlLawHandle(ControlLaw);
     Control::start();
 
@@ -69,21 +72,35 @@ int main(void) {
     I2C FXOS(I2C1,FXOS_DEVADDR);
 
 
+    STBC ImuShield(&FXAS,&FXOS);
+    if ( ImuShield.Check() == false){
+    	LED_RED_ON();
+    	Control::delay(1000000);
+    	LED_RED_OFF();
+    }
 
-//    STBC IMU(&FXAS,&FXOS);
+    Quaternion a(1,2,3,4);
+    Quaternion b(4,3,2,1);
+    Quaternion c = a*b;
+
+    Quaternion::Print(c);
+
+    ImuShield.Init();
+
+//    IMUData Data;
 
 
-    //Teste de Matrizes
-    float a_data[] = {1,2,3,4};
-    Matrix A(2,2,a_data);
-    Matrix B(2,2);
-    A.Inverse(A, B);
-    B.Print();
 
-
-
-    //Lei 1
     while(1) {
+    	LED_GREEN_TOGGLE();
+    	ImuShield.ReadMagAcc();
+    	ImuShield.ReadGyr();
+//    	Data = ImuShield.GetAccelerometerMeasurements();
+//    	CONTROLE_PRINT("A: %d %d %d",Data.X,Data.Y,Data.Z);
+//    	Data = ImuShield.GetMagnetometerMeasurements();
+//    	CONTROLE_PRINT("M: %d %d %d",Data.X,Data.Y,Data.Z);
+//    	Data = ImuShield.GetGyroscopeMeasurements();
+//    	CONTROLE_PRINT("G: %d %d %d\r\n\n",Data.X,Data.Y,Data.Z);
 
     }
 

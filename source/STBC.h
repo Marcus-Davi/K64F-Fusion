@@ -40,19 +40,64 @@
 #define FXAS_CTRL_REG3 0x15
 
 #include "I2C.h" // For IMU Pointers
+
+//Data Storage
+struct IMUData {
+	int16_t X;
+	int16_t Y;
+	int16_t Z;
+};
+
 //This class handles communication with the sensor shield.
 
 class STBC {
 public:
-	STBC( I2C* const FXASpt , I2C* const FXOSpt);
+
+	STBC(const I2C*  FXASpt ,const I2C*  FXOSpt); //Tem Forma melhor ?
 	virtual ~STBC();
 
-	void Check();
+	bool Check();
+	void Init();
+	void ReadMagAcc();
+	void ReadGyr();
+
+	inline IMUData GetAccelerometerMeasurements() const {
+		IMUData A;
+		A.X = Accelerometer.X;
+		A.Y = Accelerometer.Y;
+		A.Z = Accelerometer.Z;
+		return A;
+	}
+	inline IMUData GetGyroscopeMeasurements() const {
+		IMUData G;
+		G.X = Gyroscope.X;
+		G.Y = Gyroscope.Y;
+		G.Z = Gyroscope.Z;
+		return G;
+	}
+	inline IMUData GetMagnetometerMeasurements() const{
+		IMUData M;
+		M.X = Magnetometer.X;
+		M.Y = Magnetometer.Y;
+		M.Z = Magnetometer.Z;
+		return M;
+	}
+
+	// TODO Calibration Functions
+
 
 
 private:
-	const I2C* FXAS;
-	const I2C* FXOS;
+	const I2C* FXAS = nullptr;
+	const I2C* FXOS = nullptr;
+	IMUData Accelerometer;
+	IMUData Gyroscope;
+	IMUData Magnetometer;
+
+	IMUData Offset_Accelerometer;
+	IMUData Offset_Gyroscope;
+	IMUData Offset_Magnetometer;
+
 };
 
 
