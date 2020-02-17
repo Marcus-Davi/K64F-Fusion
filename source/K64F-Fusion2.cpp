@@ -84,22 +84,17 @@ int main(void) {
     	LED_RED_OFF();
     }
 
-    Quaternion a(1,2,3,4);
-    Quaternion b(4,3,2,1);
-    Quaternion c = a*b;
-
-    Quaternion::Print(c);
-
     ImuShield.Init();
 
-//    IMUData Data;
 
+    //Covariances
     float KQ_Qn[4*4] = {
     		0.3, 0, 0, 0,
     		0,0.3,0,0,
     		0,0,0.3,0,
     		0,0,0,0.3
     }; //3x3 n x n
+
     float KQ_Rn[3*3] = {
     		0.2,0,0,
     		0,0.2,0,

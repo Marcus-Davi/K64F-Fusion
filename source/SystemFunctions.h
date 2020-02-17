@@ -9,8 +9,12 @@
 #define SYSTEMFUNCTIONS_H_
 
 #include "arm_math.h"
+#include "EKF.h"
 #include "Quaternion.h"
 #define SystemTs 0.02f
+
+
+// TODO Pensar numa forma melhor de implementar funções. Usar prototipo fornecido pela classe ?
 
 
 static void KQ_JacobianF(const float* Xk,const float *Uk,arm_matrix_instance_f32* M){
@@ -37,6 +41,7 @@ static void KQ_JacobianF(const float* Xk,const float *Uk,arm_matrix_instance_f32
 	M->pData[15] = 1.0f;
 
 }
+
 
 static void KQ_JacobianH(const float* Xk,const float *Uk,arm_matrix_instance_f32* M){
 	//Xk -> quaternion estimado 4x1
