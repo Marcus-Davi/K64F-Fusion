@@ -105,6 +105,34 @@ void STBC::ReadGyr(){
 }
 
 
+void STBC::CalibrateGyroscope(int Samples){
+	long int Mx = 0, My = 0, Mz = 0;
+	for (unsigned int i = 0; i < Samples; ++i) {
+		ReadGyr();
+		Mx += Gyroscope.X;
+		My += Gyroscope.Y;
+		Mz += Gyroscope.Z;
+	}
+	Gyroscope_Offset.X = Mx/Samples;
+	Gyroscope_Offset.Y = My/Samples;
+	Gyroscope_Offset.Z = Mz/Samples;
+}
+
+void STBC::CalibrateAccelerometer(int Samples){
+	long int MAx=0,MAy=0,MAz = 0;
+	for(unsigned int i=0;i<Samples;++i){
+	ReadMagAcc();
+	MAx += Accelerometer.X;
+	MAy += Accelerometer.Y;
+	MAz += Accelerometer.Z;
+	}
+
+
+	Accelerometer_Offset.X = MAx/Samples; //Media de medidas Ax
+	Accelerometer_Offset.Y = MAy/Samples; //Media de medidas Ay
+	Accelerometer_Offset.Z = MAz/Samples - 2049;//Correto = 2049 (gravidade)
+}
+
 
 
 

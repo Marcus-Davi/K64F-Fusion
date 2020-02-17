@@ -61,26 +61,42 @@ public:
 	void ReadMagAcc();
 	void ReadGyr();
 
-	inline IMUData GetAccelerometerMeasurements() const {
-		IMUData A;
-		A.X = Accelerometer.X;
-		A.Y = Accelerometer.Y;
-		A.Z = Accelerometer.Z;
-		return A;
+	void CalibrateGyroscope( int Samples);
+	void CalibrateAccelerometer( int Samples);
+
+	inline void GetAccelerometerMeasurements(IMUData& A, bool calibration_offset = true) const {
+		if(calibration_offset){
+		A.X = Accelerometer.X - Accelerometer_Offset.X;
+		A.Y = Accelerometer.Y -  Accelerometer_Offset.Y;
+		A.Z = Accelerometer.Z -  Accelerometer_Offset.Z;
+		} else {
+			A.X = Accelerometer.X;
+			A.Y = Accelerometer.Y;
+			A.Z = Accelerometer.Z;
+		}
 	}
-	inline IMUData GetGyroscopeMeasurements() const {
-		IMUData G;
-		G.X = Gyroscope.X;
-		G.Y = Gyroscope.Y;
-		G.Z = Gyroscope.Z;
-		return G;
+	inline void GetGyroscopeMeasurements(IMUData& G,bool calibration_offset = true ) const {
+		if(calibration_offset){
+		G.X = Gyroscope.X - Gyroscope_Offset.X;
+		G.Y = Gyroscope.Y -  Gyroscope_Offset.Y;
+		G.Z = Gyroscope.Z -  Gyroscope_Offset.Z;
+		} else {
+			G.X = Gyroscope.X;
+			G.Y = Gyroscope.Y;
+			G.Z = Gyroscope.Z;
+		}
+
 	}
-	inline IMUData GetMagnetometerMeasurements() const{
-		IMUData M;
-		M.X = Magnetometer.X;
-		M.Y = Magnetometer.Y;
-		M.Z = Magnetometer.Z;
-		return M;
+	inline void GetMagnetometerMeasurements(IMUData& M,bool calibration_offset = true) const{
+		if(calibration_offset){
+		M.X = Magnetometer.X - Magnetometer_Offset.X;
+		M.Y = Magnetometer.Y -  Magnetometer_Offset.Y;
+		M.Z = Magnetometer.Z -  Magnetometer_Offset.Z;
+		} else {
+			M.X = Magnetometer.X;
+			M.Y = Magnetometer.Y;
+			M.Z = Magnetometer.Z;
+		}
 	}
 
 	// TODO Calibration Functions
@@ -94,9 +110,9 @@ private:
 	IMUData Gyroscope;
 	IMUData Magnetometer;
 
-	IMUData Offset_Accelerometer;
-	IMUData Offset_Gyroscope;
-	IMUData Offset_Magnetometer;
+	IMUData Accelerometer_Offset;
+	IMUData Gyroscope_Offset;
+	IMUData Magnetometer_Offset;
 
 };
 

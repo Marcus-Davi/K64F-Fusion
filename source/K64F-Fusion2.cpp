@@ -44,12 +44,17 @@
 #include "Matrix.h"
 #include "IMU.h"
 #include "Quaternion.h"
+#include "EKF.h"
+
+#include "SystemFunctions.h"
+
 /* TODO: insert other definitions and declarations here. */
 void ControlLaw();
 
 void inline Quaternion::Print(const Quaternion& q){
 CONTROLE_PRINT("%f %f %f %f\r\n",q.w,q.v.x,q.v.y,q.v.z);
 }
+
 
 /*
  * @brief   Application entry point.
@@ -89,18 +94,70 @@ int main(void) {
 
 //    IMUData Data;
 
+    float KQ_Qn[4*4] = {
+    		0.3, 0, 0, 0,
+    		0,0.3,0,0,
+    		0,0,0.3,0,
+    		0,0,0,0.3
+    }; //3x3 n x n
+    float KQ_Rn[3*3] = {
+    		0.2,0,0,
+    		0,0.2,0,
+    		0,0,0.2
+    }; //3x3 out x out
+
+    float Xq[] = {1,0,0,0};
+
+    Kalman::EKF ExtFilter(4,3,3);
+    ExtFilter.SetQn(KQ_Qn);
+    ExtFilter.SetRn(KQ_Rn);
+    ExtFilter.SetStateFunction(KQ_State);
+    ExtFilter.SetMeasurementFunction(KQ_Measure);
+    ExtFilter.SetMeasurementJacobian(KQ_JacobianH);
+    ExtFilter.SetStateJacobian(KQ_JacobianF);
+    ExtFilter.SetX0(Xq);
+
+    float sys_input[3];
+    float sys_measure[3];
+    IMUData Accelerations;
+    IMUData AngularVels;
+
+    Quaternion* q;
+
+    LED_RED_ON();
+    ImuShield.CalibrateGyroscope(50);
+    ImuShield.CalibrateAccelerometer(50);
+    LED_RED_OFF();
 
 
     while(1) {
     	LED_GREEN_TOGGLE();
     	ImuShield.ReadMagAcc();
     	ImuShield.ReadGyr();
-//    	Data = ImuShield.GetAccelerometerMeasurements();
-//    	CONTROLE_PRINT("A: %d %d %d",Data.X,Data.Y,Data.Z);
-//    	Data = ImuShield.GetMagnetometerMeasurements();
-//    	CONTROLE_PRINT("M: %d %d %d",Data.X,Data.Y,Data.Z);
-//    	Data = ImuShield.GetGyroscopeMeasurements();
-//    	CONTROLE_PRINT("G: %d %d %d\r\n\n",Data.X,Data.Y,Data.Z);
+
+    	ImuShield.GetGyroscopeMeasurements(AngularVels);
+    	ImuShield.GetAccelerometerMeasurements(Accelerations);
+
+
+
+    	sys_input[1] = (AngularVels.X ) * 15.625e-3 * PI/180.0; //wx
+    	sys_input[0] = -(AngularVels.Y ) * 15.625e-3 * PI/180.0; //wy
+    	sys_input[2] = (AngularVels.Z ) * 15.625e-3 * PI/180.0; //wz
+////
+    	sys_measure[1] = (Accelerations.X ) * 0.488e-3 * 9.80665; //ax
+    	sys_measure[0] = -(Accelerations.Y ) * 0.488e-3 * 9.80665; //ay
+    	sys_measure[2] = (Accelerations.Z ) * 0.488e-3 * 9.80665; //az
+
+    	ExtFilter.SetInput(sys_input);
+    	ExtFilter.SetMeasurements(sys_measure);
+    	ExtFilter.Predict();
+    	ExtFilter.Update();
+
+    	q = (Quaternion*)ExtFilter.GetEstimatedState(); //Perigoso ? kk
+//    	q->Normalize();
+
+    	CONTROLE_PRINT("%f %f %f %f\r\n",q->w,q->v.x,q->v.y,q->v.z);
+
 
     }
 
