@@ -63,6 +63,7 @@ public:
 
 	void CalibrateGyroscope( int Samples);
 	void CalibrateAccelerometer( int Samples);
+	void AutoCalibrateMagnetometer();
 
 	inline void GetAccelerometerMeasurements(IMUData& A, bool calibration_offset = true) const {
 		if(calibration_offset){

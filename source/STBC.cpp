@@ -107,7 +107,7 @@ void STBC::ReadGyr(){
 
 void STBC::CalibrateGyroscope(int Samples){
 	long int Mx = 0, My = 0, Mz = 0;
-	for (unsigned int i = 0; i < Samples; ++i) {
+	for (int i = 0; i < Samples; ++i) {
 		ReadGyr();
 		Mx += Gyroscope.X;
 		My += Gyroscope.Y;
@@ -120,7 +120,7 @@ void STBC::CalibrateGyroscope(int Samples){
 
 void STBC::CalibrateAccelerometer(int Samples){
 	long int MAx=0,MAy=0,MAz = 0;
-	for(unsigned int i=0;i<Samples;++i){
+	for(int i=0;i<Samples;++i){
 	ReadMagAcc();
 	MAx += Accelerometer.X;
 	MAy += Accelerometer.Y;
@@ -133,6 +133,21 @@ void STBC::CalibrateAccelerometer(int Samples){
 	Accelerometer_Offset.Z = MAz/Samples - 2049;//Correto = 2049 (gravidade)
 }
 
+void STBC::AutoCalibrateMagnetometer(){
+	uint8_t buffer[12];
+	int16_t Xmax,Xmin,Ymax,Ymin,Zmax,Zmin;
+	FXOS->Read(FXOS_MAX_X_MSB, buffer, 12);
+			Xmax = buffer[0]<<8 | buffer[1];
+			Ymax = buffer[2]<<8 | buffer[3];
+			Zmax = buffer[4]<<8 | buffer[5];
+			Xmin = buffer[6]<<8 | buffer[7];
+			Ymin = buffer[8]<<8 | buffer[9];
+			Zmin = buffer[10]<<8 | buffer[11];
+
+			Magnetometer_Offset.X = (Xmax+Xmin)/2;
+			Magnetometer_Offset.Y = (Ymax+Ymin)/2;
+			Magnetometer_Offset.Z = (Zmax+Zmin)/2;
+}
 
 
 
