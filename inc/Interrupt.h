@@ -12,6 +12,9 @@
 #include "fsl_pit.h"
 #include "peripherals.h"
 #include "board.h"
+#include "STBC.h"
+
+extern STBC* IMUpt;
 
 
 

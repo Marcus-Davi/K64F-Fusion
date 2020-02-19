@@ -11,7 +11,9 @@ board/peripherals.o board/peripherals.d: ../board/peripherals.c \
  /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/device/MK64F12_features.h \
  /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/drivers/fsl_clock.h \
  /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/drivers/fsl_common.h \
- /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/drivers/fsl_pit.h
+ /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/drivers/fsl_pit.h \
+ /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/drivers/fsl_gpio.h \
+ /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/drivers/fsl_port.h
 
 ../board/peripherals.h:
 
@@ -38,3 +40,7 @@ board/peripherals.o board/peripherals.d: ../board/peripherals.c \
 /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/drivers/fsl_common.h:
 
 /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/drivers/fsl_pit.h:
+
+/home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/drivers/fsl_gpio.h:
+
+/home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/drivers/fsl_port.h:

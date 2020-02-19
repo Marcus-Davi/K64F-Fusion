@@ -11,6 +11,8 @@
  **********************************************************************************************************************/
 #include "fsl_common.h"
 #include "fsl_pit.h"
+#include "fsl_gpio.h"
+#include "fsl_port.h"
 
 #if defined(__cplusplus)
 extern "C" {
@@ -47,6 +49,22 @@ extern "C" {
 #define PIT_CHANNEL_0_IRQN PIT0_IRQn
 /* PIT interrupt handler identifier. */
 #define PIT_CHANNEL_0_IRQHANDLER PIT0_IRQHandler
+/* Alias for GPIOA peripheral */
+#define GPIOA_GPIO GPIOA
+/* Alias for PORTA */
+#define GPIOA_PORT PORTA
+/* GPIOA interrupt vector ID (number). */
+#define GPIOA_IRQN PORTA_IRQn
+/* GPIOA interrupt handler identifier. */
+#define GPIOA_IRQHANDLER PORTA_IRQHandler
+/* Alias for GPIOC peripheral */
+#define GPIOC_GPIO GPIOC
+/* Alias for PORTC */
+#define GPIOC_PORT PORTC
+/* GPIOC interrupt vector ID (number). */
+#define GPIOC_IRQN PORTC_IRQn
+/* GPIOC interrupt handler identifier. */
+#define GPIOC_IRQHANDLER PORTC_IRQHandler
 
 /***********************************************************************************************************************
  * Global variables

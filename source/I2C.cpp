@@ -39,7 +39,9 @@ status_t I2C::Write(uint32_t deviceReg,uint8_t* buffer,size_t data_length) const
 	xfer.flags = kI2C_TransferDefaultFlag;
 	xfer.subaddressSize = 1;
 	xfer.direction = kI2C_Write;
+
 	return(I2C_MasterTransferBlocking(Peripheral, &xfer));
+
 
 }
 
@@ -53,6 +55,7 @@ status_t I2C::Read(uint32_t deviceReg,uint8_t* buffer,size_t data_length) const 
 	xfer.flags = kI2C_TransferDefaultFlag;
 	xfer.subaddressSize = 1;
 	xfer.direction = kI2C_Read;
+
 
 	return(I2C_MasterTransferBlocking(Peripheral, &xfer));
 

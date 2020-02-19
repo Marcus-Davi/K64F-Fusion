@@ -18,10 +18,13 @@ source/Interrupts.o source/Interrupts.d: ../source/Interrupts.cpp \
  /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/component/uart/uart.h \
  /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/drivers/fsl_pit.h \
  /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/board/peripherals.h \
+ /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/drivers/fsl_gpio.h \
+ /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/drivers/fsl_port.h \
  /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/board/board.h \
  /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/board/clock_config.h \
- /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/drivers/fsl_gpio.h \
- /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/drivers/fsl_port.h
+ /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/source/STBC.h \
+ /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/inc/I2C.h \
+ /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/drivers/fsl_i2c.h
 
 /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/inc/Interrupt.h:
 
@@ -61,10 +64,16 @@ source/Interrupts.o source/Interrupts.d: ../source/Interrupts.cpp \
 
 /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/board/peripherals.h:
 
+/home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/drivers/fsl_gpio.h:
+
+/home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/drivers/fsl_port.h:
+
 /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/board/board.h:
 
 /home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/board/clock_config.h:
 
-/home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/drivers/fsl_gpio.h:
+/home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/source/STBC.h:
 
-/home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/drivers/fsl_port.h:
+/home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/inc/I2C.h:
+
+/home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/drivers/fsl_i2c.h:

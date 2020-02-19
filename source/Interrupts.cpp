@@ -20,6 +20,26 @@ void PIT_CHANNEL_0_IRQHANDLER(void) {
 	}
 }
 
+// SW2
+// OK = 0x84 = 	   10000100
+// NOT OK = 0xa0 = 10100000
+// NOT OK = 0x21 = 00100001
+void GPIOC_IRQHANDLER(){
+	GPIO_PortClearInterruptFlags(GPIOC, 1 << BOARD_SW2_GPIO_PIN);
+	uint8_t stats = I2C_MasterGetStatusFlags(I2C1);
+	uint8_t kk = (stats & 0x20);
+	if(kk)
+		return;
+
+	LED_BLUE_TOGGLE();
+	IMUpt->ClearMagOffset();
+}
+
+// SW3
+void GPIOA_IRQHANDLER(){
+	GPIO_PortClearInterruptFlags(GPIOA, 1 << BOARD_SW3_GPIO_PIN);
+}
+
 
 
 

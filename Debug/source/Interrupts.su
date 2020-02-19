@@ -1,3 +1,6 @@
 fsl_pit.h:207:24:uint32_t PIT_GetStatusFlags(PIT_Type*, pit_chnl_t)	16	static
 fsl_pit.h:220:20:void PIT_ClearStatusFlags(PIT_Type*, pit_chnl_t, uint32_t)	24	static
+fsl_gpio.h:197:20:void GPIO_PortToggle(GPIO_Type*, uint32_t)	16	static
 Interrupts.cpp:16:6:void PIT0_IRQHandler()	8	static
+Interrupts.cpp:27:6:void PORTC_IRQHandler()	16	static
+Interrupts.cpp:39:6:void PORTA_IRQHandler()	8	static

@@ -43,7 +43,7 @@ void STBC::Init(){
 	tx=0x03;//Ligar modo Hybrid, 2x Oversampling.
 	FXOS->Write(FXOS_M_CTROL_REG1, &tx, 1);
 
-	tx=0x23;//Hybrid AutoIncrement.
+	tx=0x22;//Hybrid AutoIncrement + Magnetic Reset.
 	FXOS->Write(FXOS_M_CTROL_REG2, &tx, 1);
 
 	tx=0x01;//0.488mg/LSB + NO HighPassFilter.
@@ -147,6 +147,14 @@ void STBC::AutoCalibrateMagnetometer(){
 			Magnetometer_Offset.X = (Xmax+Xmin)/2;
 			Magnetometer_Offset.Y = (Ymax+Ymin)/2;
 			Magnetometer_Offset.Z = (Zmax+Zmin)/2;
+}
+
+void STBC::ClearMagOffset(){
+	uint8_t rx;
+	FXOS->Read(FXOS_M_CTROL_REG2, &rx, 1);
+	rx |= (1<<2);
+	FXOS->Write(FXOS_M_CTROL_REG2, &rx, 1);
+
 }
 
 

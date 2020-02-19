@@ -47,6 +47,8 @@
 #include "Quaternion.h"
 #include "EKF.h"
 
+STBC* IMUpt;
+
 
 /* TODO: insert other definitions and declarations here. */
 void ControlLaw();
@@ -67,11 +69,13 @@ int main(void) {
     BOARD_InitBootPeripherals();
   	/* Init FSL debug console. */
     BOARD_InitDebugConsole();
+    //Test
+
 
 
     Control::setSamplingFrequency(5);
     Control::setControlLawHandle(ControlLaw);
-    Control::start();
+    Control::stop();
 
     I2C FXAS(I2C1,FXAS_DEVADDR);
     I2C FXOS(I2C1,FXOS_DEVADDR);
@@ -84,7 +88,10 @@ int main(void) {
     	LED_RED_OFF();
     }
 
+    IMUpt = &ImuShield;
+
     ImuShield.Init();
+    ImuShield.ClearMagOffset();
 
 
     //Covariances
@@ -96,13 +103,14 @@ int main(void) {
     }; //3x3 n x n
 
     float KQ_Rn[3*3] = {
-    		0.2,0,0,
-    		0,0.2,0,
-    		0,0,0.2
+    		0.1,0,0,
+    		0,0.1,0,
+    		0,0,0.1
     }; //3x3 out x out
 
     float Xq[] = {1,0,0,0};
 
+    // Extended Kalman Filter
     Kalman::EKF ExtFilter(4,3,3);
     ExtFilter.SetQn(KQ_Qn);
     ExtFilter.SetRn(KQ_Rn);
@@ -114,7 +122,7 @@ int main(void) {
     Quaternion* q = (Quaternion*)ExtFilter.GetEstimatedState(); //Perigoso ? kk
 
     float sys_input[3];
-    float sys_measure[3];
+    float sys_measure[6];
     IMUData Accelerations;
     IMUData AngularVels;
     IMUData Mag;
@@ -122,8 +130,8 @@ int main(void) {
 
 
     LED_BLUE_ON();
-    ImuShield.CalibrateGyroscope(50);
-    ImuShield.CalibrateAccelerometer(50);
+    ImuShield.CalibrateGyroscope(100);
+    ImuShield.CalibrateAccelerometer(100);
     LED_BLUE_OFF();
 
 
@@ -131,11 +139,11 @@ int main(void) {
     	LED_GREEN_TOGGLE();
     	ImuShield.ReadMagAcc();
     	ImuShield.ReadGyr();
-//    	ImuShield.AutoCalibrateMagnetometer();
+    	ImuShield.AutoCalibrateMagnetometer();
 
-    	ImuShield.GetGyroscopeMeasurements(AngularVels);
+    	ImuShield.GetGyroscopeMeasurements(AngularVels,true);
     	ImuShield.GetAccelerometerMeasurements(Accelerations,false);
-    	ImuShield.GetMagnetometerMeasurements(Mag);
+    	ImuShield.GetMagnetometerMeasurements(Mag,true);
 
 
 
@@ -147,20 +155,32 @@ int main(void) {
     	sys_measure[0] = -(Accelerations.Y ) * 0.488e-3 * 9.80665; //ay
     	sys_measure[2] = (Accelerations.Z ) * 0.488e-3 * 9.80665; //az
 
-//    	CONTROLE_PRINT("%f %f %f \r\n",sys_input[0],sys_input[1],sys_input[2]);
+    	sys_measure[4] = (Mag.X ) * 0.1; //ax
+    	sys_measure[3] = -(Mag.Y ) * 0.1; //ay
+    	sys_measure[5] = (Mag.Z ) * 0.1; //az
 
+    	CONTROLE_PRINT("%f %f %f %f %f %f %f %f %f\r\n",sys_input[0],sys_input[1],sys_input[2],
+    			sys_measure[0],sys_measure[1],sys_measure[2],
+				sys_measure[3],sys_measure[4],sys_measure[5]);
+
+//    	CONTROLE_PRINT("%f %f %f \r\n",sys_input[0],sys_input[1],sys_input[2]);
+//
 //    	CONTROLE_PRINT("%f %f %f %f %f %f\r\n",sys_input[0],sys_input[1],sys_input[2],
 //    			sys_measure[0],sys_measure[1],sys_measure[2]);
 
-    	ExtFilter.Predict(sys_input);
-    	ExtFilter.Update(sys_measure);
+//    	CONTROLE_PRINT("%f %f %f %f %f %f %f %f %f %f \r\n",sys_input[0],sys_input[1],sys_input[2],
+//    			sys_measure[0],sys_measure[1],sys_measure[2],
+//				q->w,q->v.x,q->v.y,q->v.z);
+
+//    	ExtFilter.Predict(sys_input);
+//    	ExtFilter.Update(sys_measure);
 
 //    	CONTROLE_PRINT("%f %f %f %f %f %f %f %f %f %f \r\n",sys_input[0],sys_input[1],sys_input[2],
 //    			sys_measure[0],sys_measure[1],sys_measure[2],
 //				q->w,q->v.x,q->v.y,q->v.z);
 
 
-    	CONTROLE_PRINT("%f %f %f %f\r\n",q->w,q->v.x,q->v.y,q->v.z);
+//    	CONTROLE_PRINT("%f %f %f %f\r\n",q->w,q->v.x,q->v.y,q->v.z);
 //    	CONTROLE_PRINT("%f %f %f\r\n",sys_input[0],sys_input[1],sys_input[2]);
 
 
