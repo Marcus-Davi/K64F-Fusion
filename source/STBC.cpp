@@ -147,6 +147,20 @@ void STBC::AutoCalibrateMagnetometer(){
 			Magnetometer_Offset.X = (Xmax+Xmin)/2;
 			Magnetometer_Offset.Y = (Ymax+Ymin)/2;
 			Magnetometer_Offset.Z = (Zmax+Zmin)/2;
+
+//			//Radius = mean(sqrt(MxSoft.*MxSoft + MySoft.*MySoft + MzSoft.*MzSoft));
+//				for(int i = 0;i < Nsamp; i++){
+//					MMx[i] = (Data->M.X-Data->OffM.X)*(Data->M.X-Data->OffM.X);
+//					MMy[i] = (Data->M.Y-Data->OffM.Y)*(Data->M.Y-Data->OffM.Y);
+//					MMz[i] = (Data->M.Z-Data->OffM.Z)*(Data->M.Z-Data->OffM.Z);
+//					Msqrt[i] = sqrtf((float)MMx[i] + (float)MMy[i] + (float)MMz[i]);
+//					radius += Msqrt[i];
+//				}
+//				radius /= (float)Nsamp;
+//
+//				Data->SoftM.X *= radius;
+//				Data->SoftM.Y *= radius;
+//				Data->SoftM.Z *= radius;
 }
 
 void STBC::ClearMagOffset(){
@@ -155,6 +169,15 @@ void STBC::ClearMagOffset(){
 	rx |= (1<<2);
 	FXOS->Write(FXOS_M_CTROL_REG2, &rx, 1);
 
+}
+
+//Considerar SoftIron ?
+float STBC::GetMagField(){
+	float Bx = (float)(Magnetometer.X - Magnetometer_Offset.X)*0.1;
+	float By = (float)(Magnetometer.Y - Magnetometer_Offset.Y)*0.1;
+	float Bz = (float)(Magnetometer.Z - Magnetometer_Offset.Z)*0.1;
+
+	return sqrtf(Bx*Bx + By*By + Bz*Bz);
 }
 
 

@@ -8,6 +8,8 @@
 #ifndef STBC_H_
 #define STBC_H_
 
+#include <cmath>
+
 /*STBC Device Registers*/
 #define FXOS_DEVADDR 0x1E
 #define FXAS_DEVADDR 0x20
@@ -61,10 +63,12 @@ public:
 	void ReadMagAcc();
 	void ReadGyr();
 
+	float GetMagField();
 	void CalibrateGyroscope( int Samples);
 	void CalibrateAccelerometer( int Samples);
 	void AutoCalibrateMagnetometer();
 	void ClearMagOffset();
+
 
 	inline void GetAccelerometerMeasurements(IMUData& A, bool calibration_offset = true) const {
 		if(calibration_offset){

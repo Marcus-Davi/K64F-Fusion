@@ -42,12 +42,15 @@
 #include "fsl_debug_console.h"
 /* TODO: insert other include files here. */
 #include "Control.h"
-#include "Matrix.h"
+//#include "Matrix.h"
 #include "IMU.h"
 #include "Quaternion.h"
-#include "EKF.h"
+//#include "EKF.h"
+#include "EKF_Stack.h"
 
 STBC* IMUpt;
+
+extern float mag_field;
 
 
 /* TODO: insert other definitions and declarations here. */
@@ -62,6 +65,7 @@ CONTROLE_PRINT("%f %f %f %f\r\n",q.w,q.v.x,q.v.y,q.v.z);
  * @brief   Application entry point.
  */
 int main(void) {
+
 
   	/* Init board hardware. */
     BOARD_InitBootPins();
@@ -111,15 +115,16 @@ int main(void) {
     float Xq[] = {1,0,0,0};
 
     // Extended Kalman Filter
-    Kalman::EKF ExtFilter(4,3,3);
+    Kalman::EKF_Stack ExtFilter;
     ExtFilter.SetQn(KQ_Qn);
     ExtFilter.SetRn(KQ_Rn);
+    ExtFilter.SetX0(Xq);
+    ExtFilter.SetMeasurementJacobian(AttitudeEstimation::MeasurementJacobian);
     ExtFilter.SetStateFunction(AttitudeEstimation::StateFunction);
     ExtFilter.SetMeasurementFunction(AttitudeEstimation::MeasurementFunction);
     ExtFilter.SetStateJacobian(AttitudeEstimation::StateJacobian);
-    ExtFilter.SetMeasurementJacobian(AttitudeEstimation::MeasurementJacobian);
-    ExtFilter.SetX0(Xq);
-    Quaternion* q = (Quaternion*)ExtFilter.GetEstimatedState(); //Perigoso ? kk
+    Quaternion* q = (Quaternion*)ExtFilter.GetEstimatedState();
+
 
     float sys_input[3];
     float sys_measure[6];
@@ -144,7 +149,7 @@ int main(void) {
     	ImuShield.GetGyroscopeMeasurements(AngularVels,true);
     	ImuShield.GetAccelerometerMeasurements(Accelerations,false);
     	ImuShield.GetMagnetometerMeasurements(Mag,true);
-
+    	mag_field = ImuShield.GetMagField();
 
 
     	sys_input[1] = (AngularVels.X ) * 15.625e-3 * PI/180.0; //wx
@@ -172,8 +177,8 @@ int main(void) {
 //    			sys_measure[0],sys_measure[1],sys_measure[2],
 //				q->w,q->v.x,q->v.y,q->v.z);
 
-//    	ExtFilter.Predict(sys_input);
-//    	ExtFilter.Update(sys_measure);
+    	ExtFilter.Predict(sys_input);
+    	ExtFilter.Update(sys_measure);
 
 //    	CONTROLE_PRINT("%f %f %f %f %f %f %f %f %f %f \r\n",sys_input[0],sys_input[1],sys_input[2],
 //    			sys_measure[0],sys_measure[1],sys_measure[2],
