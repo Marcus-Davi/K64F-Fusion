@@ -167,9 +167,9 @@ int main(void) {
     	sys_measure[3] = -(Mag.Y ) * 0.1; //ay
     	sys_measure[5] = (Mag.Z ) * 0.1; //az
 
-    	CONTROLE_PRINT("%f %f %f %f %f %f %f %f %f\r\n",sys_input[0],sys_input[1],sys_input[2],
-    			sys_measure[0],sys_measure[1],sys_measure[2],
-				sys_measure[3],sys_measure[4],sys_measure[5]);
+//    	CONTROLE_PRINT("%f %f %f %f %f %f %f %f %f\r\n",sys_input[0],sys_input[1],sys_input[2],
+//    			sys_measure[0],sys_measure[1],sys_measure[2],
+//				sys_measure[3],sys_measure[4],sys_measure[5]);
 
 //    	CONTROLE_PRINT("%f %f %f \r\n",sys_input[0],sys_input[1],sys_input[2]);
 //
@@ -188,7 +188,7 @@ int main(void) {
 //				q->w,q->v.x,q->v.y,q->v.z);
 
 
-//    	CONTROLE_PRINT("%f %f %f %f\r\n",q->w,q->v.x,q->v.y,q->v.z);
+    	CONTROLE_PRINT("%f %f %f %f\r\n",q->w,q->v.x,q->v.y,q->v.z);
 //    	CONTROLE_PRINT("%f %f %f\r\n",sys_input[0],sys_input[1],sys_input[2]);
 
 
