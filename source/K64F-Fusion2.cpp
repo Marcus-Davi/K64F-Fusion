@@ -114,15 +114,16 @@ int main(void) {
     Kalman::EKF ExtFilter(4,3,3);
     ExtFilter.SetQn(KQ_Qn);
     ExtFilter.SetRn(KQ_Rn);
+    ExtFilter.SetX0(Xq);
     ExtFilter.SetStateFunction(AttitudeEstimation::StateFunction);
     ExtFilter.SetMeasurementFunction(AttitudeEstimation::MeasurementFunction);
     ExtFilter.SetStateJacobian(AttitudeEstimation::StateJacobian);
     ExtFilter.SetMeasurementJacobian(AttitudeEstimation::MeasurementJacobian);
-    ExtFilter.SetX0(Xq);
+
     Quaternion* q = (Quaternion*)ExtFilter.GetEstimatedState(); //Perigoso ? kk
 
     float sys_input[3];
-    float sys_measure[6];
+    float sys_measure[3];
     IMUData Accelerations;
     IMUData AngularVels;
     IMUData Mag;
@@ -159,9 +160,9 @@ int main(void) {
     	sys_measure[3] = -(Mag.Y ) * 0.1; //ay
     	sys_measure[5] = (Mag.Z ) * 0.1; //az
 
-    	CONTROLE_PRINT("%f %f %f %f %f %f %f %f %f\r\n",sys_input[0],sys_input[1],sys_input[2],
-    			sys_measure[0],sys_measure[1],sys_measure[2],
-				sys_measure[3],sys_measure[4],sys_measure[5]);
+//    	CONTROLE_PRINT("%f %f %f %f %f %f %f %f %f\r\n",sys_input[0],sys_input[1],sys_input[2],
+//    			sys_measure[0],sys_measure[1],sys_measure[2],
+//				sys_measure[3],sys_measure[4],sys_measure[5]);
 
 //    	CONTROLE_PRINT("%f %f %f \r\n",sys_input[0],sys_input[1],sys_input[2]);
 //
@@ -172,15 +173,15 @@ int main(void) {
 //    			sys_measure[0],sys_measure[1],sys_measure[2],
 //				q->w,q->v.x,q->v.y,q->v.z);
 
-//    	ExtFilter.Predict(sys_input);
-//    	ExtFilter.Update(sys_measure);
+    	ExtFilter.Predict(sys_input);
+    	ExtFilter.Update(sys_measure);
 
 //    	CONTROLE_PRINT("%f %f %f %f %f %f %f %f %f %f \r\n",sys_input[0],sys_input[1],sys_input[2],
 //    			sys_measure[0],sys_measure[1],sys_measure[2],
 //				q->w,q->v.x,q->v.y,q->v.z);
 
 
-//    	CONTROLE_PRINT("%f %f %f %f\r\n",q->w,q->v.x,q->v.y,q->v.z);
+    	CONTROLE_PRINT("%f %f %f %f\r\n",q->w,q->v.x,q->v.y,q->v.z);
 //    	CONTROLE_PRINT("%f %f %f\r\n",sys_input[0],sys_input[1],sys_input[2]);
 
 
