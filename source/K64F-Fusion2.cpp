@@ -106,10 +106,13 @@ int main(void) {
     		0.0003,-0.0001,0.0001,0.0001
     }; //3x3 n x n
 
-    float KQ_Rn[3*3] = {
-    		0.1,0,0,
-    		0,0.1,0,
-    		0,0,0.1
+    float KQ_Rn[6*6] = {
+    		0.1,0,0,0,0,0,
+    		0,0.1,0,0,0,0,
+    		0,0,0.1,0,0,0,
+    		0,0,0,2,0,0,
+    		0,0,0,0,2,0,
+    		0,0,0,0,0,3,
     }; //3x3 out x out
 
     float Xq[] = {1,0,0,0};
@@ -136,7 +139,7 @@ int main(void) {
 
     LED_BLUE_ON();
     ImuShield.CalibrateGyroscope(100);
-    ImuShield.CalibrateAccelerometer(100);
+//    ImuShield.CalibrateAccelerometer(100);
     LED_BLUE_OFF();
 
 
