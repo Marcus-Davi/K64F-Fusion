@@ -6,7 +6,7 @@
  * Generated linker script file for MK64FN1M0xxx12
  * Created from linkscript.ldt by FMCreateLinkLibraries
  * Using Freemarker v2.3.23
- * MCUXpresso IDE v11.1.0 [Build 3209] [2019-12-12] on Feb 20, 2020 7:30:36 PM
+ * MCUXpresso IDE v11.1.0 [Build 3209] [2019-12-12] on Feb 20, 2020 8:08:40 PM
  */
 
 INCLUDE "K64F-Controle_Debug_library.ld"
