@@ -145,6 +145,7 @@ int main(void) {
     	ImuShield.GetGyroscopeMeasurements(AngularVels,true);
     	ImuShield.GetAccelerometerMeasurements(Accelerations,false);
     	ImuShield.GetMagnetometerMeasurements(Mag,true);
+    	mag_field = ImuShield.GetMagField();
 
 
 

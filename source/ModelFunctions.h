@@ -111,15 +111,16 @@ M.pData[3] = qk1.v.z;
 
 void MeasurementFunction(const float* Xk,const float *Uk,arm_matrix_instance_f32& M){
 	// M -> saida estimada 6x1
+	float m = mag_field*0.9440f; // B * cos(m_incl)
+	float n = mag_field*0.3298f; // B * sin (m_incl)
 
 	Quaternion qk(Xk[0],Xk[1],Xk[2],Xk[3]);
 	Quaternion qg(0,0,0,9.8); //gravity
-	Quaternion qa;
+	Quaternion qm(0,m,0,n); //gravity
+	Quaternion qa,qb;
 //quaternion_t qk,qg;
 //quaternion_t qa;
 
-//float m = mag_field*0.9440f; // B * cos(m_incl)
-//float n = mag_field*0.3298f; // B * sin (m_incl)
 
 //qk.w = Xk[0];
 //qk.v.x = Xk[1];
@@ -135,16 +136,16 @@ void MeasurementFunction(const float* Xk,const float *Uk,arm_matrix_instance_f32
 //qm.v.z = n;
 
 qa.v = qk.RotateFrame(qg.v);
-
+qb.v = qk.RotateFrame(qm.v);
 //qa.v = QUAT_Nav2Body(&qk, &qg.v);
 //qb.v = QUAT_Nav2Body(&qk, &qm.v);
 
 M.pData[0] = qa.v.x;
 M.pData[1] = qa.v.y;
 M.pData[2] = qa.v.z;
-//M->pData[3] = qb.v.x;
-//M->pData[4] = qb.v.y;
-//M->pData[5] = qb.v.z;
+M.pData[3] = qb.v.x;
+M.pData[4] = qb.v.y;
+M.pData[5] = qb.v.z;
 
 }
 

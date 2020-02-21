@@ -8,6 +8,8 @@
 #ifndef STBC_H_
 #define STBC_H_
 
+#include <cmath>
+
 /*STBC Device Registers*/
 #define FXOS_DEVADDR 0x1E
 #define FXAS_DEVADDR 0x20
@@ -65,6 +67,7 @@ public:
 	void CalibrateAccelerometer( int Samples);
 	void AutoCalibrateMagnetometer();
 	void ClearMagOffset();
+	float GetMagField();
 
 	inline void GetAccelerometerMeasurements(IMUData& A, bool calibration_offset = true) const {
 		if(calibration_offset){

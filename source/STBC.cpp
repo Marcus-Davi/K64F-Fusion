@@ -154,7 +154,14 @@ void STBC::ClearMagOffset(){
 	FXOS->Read(FXOS_M_CTROL_REG2, &rx, 1);
 	rx |= (1<<2);
 	FXOS->Write(FXOS_M_CTROL_REG2, &rx, 1);
+}
 
+float STBC::GetMagField(){
+	float Bx = (Magnetometer.X - Magnetometer_Offset.X)*0.1;
+	float By = (Magnetometer.Y - Magnetometer_Offset.Y)*0.1;
+	float Bz = (Magnetometer.Z - Magnetometer_Offset.Z)*0.1;
+
+	return sqrtf(Bx*Bx + By*By + Bz*Bz);
 }
 
 
