@@ -12,7 +12,7 @@
 #include "Quaternion.h"
 #define SystemTs 0.02f
 
-static float mag_field;
+//static float mag_field;
 
 
 // TODO Pensar numa forma melhor de implementar funções. Usar prototipo fornecido pela classe ?
@@ -49,8 +49,8 @@ static void StateJacobian(const float* Xk,const float *Uk,void* Res){
 static void MeasurementJacobian(const float* Xk,const float *Uk,void* Res){
 	arm_matrix_instance_f32* M = (arm_matrix_instance_f32*)Res;
 
-	float m = mag_field*0.9440f; // B * cos(m_incl)
-	float n = mag_field*0.3298f; // B * sin(m_incl)
+//	float m = mag_field*0.9440f; // B * cos(m_incl)
+//	float n = mag_field*0.3298f; // B * sin(m_incl)
 
 	static const float g = 9.8;
 
@@ -72,22 +72,22 @@ static void MeasurementJacobian(const float* Xk,const float *Uk,void* Res){
 	M->pData[11] = Xk[3]*g;
 
 
-	M->pData[12] = Xk[0]*m + (-Xk[2]*n);
-	M->pData[13] = Xk[1]*m + (Xk[3]*n);
-	M->pData[14] = -Xk[2]*m + (-Xk[0]*n);
-	M->pData[15] = -Xk[3]*m + (Xk[1]*n);
-
-
-	M->pData[16] = -Xk[3]*m + (Xk[1]*n);
-	M->pData[17] = Xk[2]*m + (Xk[0]*n);
-	M->pData[18] = Xk[1]*m + (Xk[3]*n);
-	M->pData[19] = -Xk[0]*m + (Xk[2]*n);
-
-
-	M->pData[20] = Xk[2]*m + (Xk[0]*n);
-	M->pData[21] = Xk[3]*m + (-Xk[1]*n);
-	M->pData[22] = Xk[0]*m + (-Xk[2]*n);
-	M->pData[23] = Xk[1]*m + (Xk[3]*n);
+//	M->pData[12] = Xk[0]*m + (-Xk[2]*n);
+//	M->pData[13] = Xk[1]*m + (Xk[3]*n);
+//	M->pData[14] = -Xk[2]*m + (-Xk[0]*n);
+//	M->pData[15] = -Xk[3]*m + (Xk[1]*n);
+//
+//
+//	M->pData[16] = -Xk[3]*m + (Xk[1]*n);
+//	M->pData[17] = Xk[2]*m + (Xk[0]*n);
+//	M->pData[18] = Xk[1]*m + (Xk[3]*n);
+//	M->pData[19] = -Xk[0]*m + (Xk[2]*n);
+//
+//
+//	M->pData[20] = Xk[2]*m + (Xk[0]*n);
+//	M->pData[21] = Xk[3]*m + (-Xk[1]*n);
+//	M->pData[22] = Xk[0]*m + (-Xk[2]*n);
+//	M->pData[23] = Xk[1]*m + (Xk[3]*n);
 
 	arm_mat_scale_f32(M, 2.0f, M);
 
@@ -114,25 +114,25 @@ M->pData[3] = qk1.v.z;
 void MeasurementFunction(const float* Xk,const float *Uk,void* Res){
 	arm_matrix_instance_f32* M = (arm_matrix_instance_f32*)Res;
 
-	float m = mag_field*0.9440f; // B * cos(m_incl)
-	float n = mag_field*0.3298f; // B * sin (m_incl)
+//	float m = mag_field*0.9440f; // B * cos(m_incl)
+//	float n = mag_field*0.3298f; // B * sin (m_incl)
 
 
 	Quaternion qk(Xk[0],Xk[1],Xk[2],Xk[3]);
 	Quaternion qg(0,0,0,9.8); //gravity
-	Quaternion qm(0,m,0,n); //gravity
-	Quaternion qa,qb;
+//	Quaternion qm(0,m,0,n); //gravity
+	Quaternion qa;
 
 	qa.v = qk.RotateFrame(qg.v);
-	qb.v = qk.RotateFrame(qm.v);
+//	qb.v = qk.RotateFrame(qm.v);
 
 
 	M->pData[0] = qa.v.x;
 	M->pData[1] = qa.v.y;
 	M->pData[2] = qa.v.z;
-	M->pData[3] = qb.v.x;
-	M->pData[4] = qb.v.y;
-	M->pData[5] = qb.v.z;
+//	M->pData[3] = qb.v.x;
+//	M->pData[4] = qb.v.y;
+//	M->pData[5] = qb.v.z;
 
 }
 

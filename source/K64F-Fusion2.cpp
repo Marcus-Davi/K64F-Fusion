@@ -110,7 +110,7 @@ int main(void) {
     float Xq[] = {1,0,0,0};
 
     // Extended Kalman Filter
-    Kalman::EKF ExtFilter(4,3,6);
+    Kalman::EKF ExtFilter(4,3,3);
 
 //    Kalman::EKF_Stack ExtFilter;
 
@@ -129,10 +129,10 @@ int main(void) {
     Quaternion* q = (Quaternion*)ExtFilter.GetEstimatedState(); //Perigoso ? kk
 
     float sys_input[3];
-    float sys_measure[6];
+    float sys_measure[3];
     IMUData Accelerations;
     IMUData AngularVels;
-    IMUData Mag;
+//    IMUData Mag;
 
 
     LED_BLUE_ON();
@@ -151,8 +151,8 @@ int main(void) {
 
     	ImuShield.GetGyroscopeMeasurements(AngularVels,true);
     	ImuShield.GetAccelerometerMeasurements(Accelerations,false);
-    	ImuShield.GetMagnetometerMeasurements(Mag,true);
-    	mag_field = ImuShield.GetMagField();
+//    	ImuShield.GetMagnetometerMeasurements(Mag,true);
+//    	mag_field = ImuShield.GetMagField();
 
 
 
@@ -164,9 +164,9 @@ int main(void) {
     	sys_measure[0] = -(Accelerations.Y ) * 0.488e-3 * 9.80665; //ay
     	sys_measure[2] = (Accelerations.Z ) * 0.488e-3 * 9.80665; //az
 
-    	sys_measure[4] = (Mag.X ) * 0.1; //ax
-    	sys_measure[3] = -(Mag.Y ) * 0.1; //ay
-    	sys_measure[5] = (Mag.Z ) * 0.1; //az
+//    	sys_measure[4] = (Mag.X ) * 0.1; //ax
+//    	sys_measure[3] = -(Mag.Y ) * 0.1; //ay
+//    	sys_measure[5] = (Mag.Z ) * 0.1; //az
 
 
     	ExtFilter.Predict(sys_input);
