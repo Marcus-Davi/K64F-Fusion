@@ -9,7 +9,6 @@
 #define MODELFUNCTIONS_H_
 
 #include "arm_math.h"
-#include "EKF.h"
 #include "Quaternion.h"
 #define SystemTs 0.02f
 

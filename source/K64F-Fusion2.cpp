@@ -45,7 +45,10 @@
 #include "Matrix.h"
 #include "IMU.h"
 #include "Quaternion.h"
+
 #include "EKF.h"
+//#include "EKF_Stack.h"
+
 #include "ModelFunctions.h"
 STBC* IMUpt;
 
@@ -109,6 +112,8 @@ int main(void) {
     // Extended Kalman Filter
     Kalman::EKF ExtFilter(4,3,6);
 
+//    Kalman::EKF_Stack ExtFilter;
+
     unsigned int k = ExtFilter.GetBytesUsed();
      CONTROLE_PRINT("bytes = %d\r\n",k);
 
@@ -131,8 +136,8 @@ int main(void) {
 
 
     LED_BLUE_ON();
-    ImuShield.CalibrateGyroscope(100);
-    ImuShield.CalibrateAccelerometer(100);
+    ImuShield.CalibrateGyroscope(50);
+    ImuShield.CalibrateAccelerometer(50);
     LED_BLUE_OFF();
 
 
