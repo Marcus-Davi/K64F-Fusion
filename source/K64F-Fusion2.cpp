@@ -53,11 +53,6 @@ STBC* IMUpt;
 /* TODO: insert other definitions and declarations here. */
 void ControlLaw();
 
-void inline Quaternion::Print(const Quaternion& q){
-CONTROLE_PRINT("%f %f %f %f\r\n",q.w,q.v.x,q.v.y,q.v.z);
-}
-
-
 /*
  * @brief   Application entry point.
  */
@@ -69,8 +64,6 @@ int main(void) {
     BOARD_InitBootPeripherals();
   	/* Init FSL debug console. */
     BOARD_InitDebugConsole();
-    //Test
-
 
 
     Control::setSamplingFrequency(5);
@@ -115,6 +108,11 @@ int main(void) {
 
     // Extended Kalman Filter
     Kalman::EKF ExtFilter(4,3,6);
+
+    unsigned int k = ExtFilter.GetBytesUsed();
+     CONTROLE_PRINT("bytes = %d\r\n",k);
+
+
     ExtFilter.SetQn(KQ_Qn);
     ExtFilter.SetRn(KQ_Rn);
     ExtFilter.SetX0(Xq);
@@ -132,11 +130,12 @@ int main(void) {
     IMUData Mag;
 
 
-
     LED_BLUE_ON();
     ImuShield.CalibrateGyroscope(100);
     ImuShield.CalibrateAccelerometer(100);
     LED_BLUE_OFF();
+
+
 
 
     while(1) {
@@ -164,29 +163,12 @@ int main(void) {
     	sys_measure[3] = -(Mag.Y ) * 0.1; //ay
     	sys_measure[5] = (Mag.Z ) * 0.1; //az
 
-//    	CONTROLE_PRINT("%f %f %f %f %f %f %f %f %f\r\n",sys_input[0],sys_input[1],sys_input[2],
-//    			sys_measure[0],sys_measure[1],sys_measure[2],
-//				sys_measure[3],sys_measure[4],sys_measure[5]);
-
-//    	CONTROLE_PRINT("%f %f %f \r\n",sys_input[0],sys_input[1],sys_input[2]);
-//
-//    	CONTROLE_PRINT("%f %f %f %f %f %f\r\n",sys_input[0],sys_input[1],sys_input[2],
-//    			sys_measure[0],sys_measure[1],sys_measure[2]);
-
-//    	CONTROLE_PRINT("%f %f %f %f %f %f %f %f %f %f \r\n",sys_input[0],sys_input[1],sys_input[2],
-//    			sys_measure[0],sys_measure[1],sys_measure[2],
-//				q->w,q->v.x,q->v.y,q->v.z);
 
     	ExtFilter.Predict(sys_input);
     	ExtFilter.Update(sys_measure);
 
-//    	CONTROLE_PRINT("%f %f %f %f %f %f %f %f %f %f \r\n",sys_input[0],sys_input[1],sys_input[2],
-//    			sys_measure[0],sys_measure[1],sys_measure[2],
-//				q->w,q->v.x,q->v.y,q->v.z);
-
 
     	CONTROLE_PRINT("%f %f %f %f\r\n",q->w,q->v.x,q->v.y,q->v.z);
-//    	CONTROLE_PRINT("%f %f %f\r\n",sys_input[0],sys_input[1],sys_input[2]);
 
 
     }
