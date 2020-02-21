@@ -32,7 +32,7 @@
  * @file    K64F-Controle.cpp
  * @brief   Application entry point.
  */
-#include <ModelFunctions.h>
+
 #include <stdio.h>
 #include "board.h"
 #include "peripherals.h"
@@ -46,7 +46,7 @@
 #include "IMU.h"
 #include "Quaternion.h"
 #include "EKF.h"
-
+#include "ModelFunctions.h"
 STBC* IMUpt;
 
 
@@ -102,16 +102,19 @@ int main(void) {
     		0.0003,-0.0001,0.0001,0.0001
     }; //3x3 n x n
 
-    float KQ_Rn[3*3] = {
-    		0.1,0,0,
-    		0,0.1,0,
-    		0,0,0.1
+    float KQ_Rn[6*6] = {
+    		0.1,0,0,0,0,0,
+    		0,0.1,0,0,0,0,
+    		0,0,0.1,0,0,0,
+    		0,0,0,2,0,0,
+    		0,0,0,0,2,0,
+    		0,0,0,0,0,3,
     }; //3x3 out x out
 
     float Xq[] = {1,0,0,0};
 
     // Extended Kalman Filter
-    Kalman::EKF ExtFilter(4,3,3);
+    Kalman::EKF ExtFilter(4,3,6);
     ExtFilter.SetQn(KQ_Qn);
     ExtFilter.SetRn(KQ_Rn);
     ExtFilter.SetX0(Xq);
@@ -123,7 +126,7 @@ int main(void) {
     Quaternion* q = (Quaternion*)ExtFilter.GetEstimatedState(); //Perigoso ? kk
 
     float sys_input[3];
-    float sys_measure[3];
+    float sys_measure[6];
     IMUData Accelerations;
     IMUData AngularVels;
     IMUData Mag;

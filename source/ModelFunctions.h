@@ -52,7 +52,9 @@ static void MeasurementJacobian(const float* Xk,const float *Uk,arm_matrix_insta
 	// M -> 6x4
 	float m = mag_field*0.9440f; // B * cos(m_incl)
 	float n = mag_field*0.3298f; // B * sin(m_incl)
+
 	static const float g = 9.8;
+
 	M.pData[0] = -Xk[2]*g;
 	M.pData[1] = Xk[3]*g;
 	M.pData[2] = -Xk[0]*g;
