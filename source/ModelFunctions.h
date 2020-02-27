@@ -21,7 +21,7 @@ namespace AttitudeEstimation {
 
 
 static void StateJacobian(const float* Xk,const float *Uk,void* Res){
-	arm_matrix_instance_f32* M = (arm_matrix_instance_f32*)Res;
+	arm_matrix_instance_f32* M = static_cast<arm_matrix_instance_f32*>(Res);
 
 	M->pData[0] = 1.0f;
 	M->pData[1] = -Uk[0]*SystemTs/2;
@@ -47,7 +47,7 @@ static void StateJacobian(const float* Xk,const float *Uk,void* Res){
 
 
 static void MeasurementJacobian(const float* Xk,const float *Uk,void* Res){
-	arm_matrix_instance_f32* M = (arm_matrix_instance_f32*)Res;
+	arm_matrix_instance_f32* M = static_cast<arm_matrix_instance_f32*>(Res);
 
 //	float m = mag_field*0.9440f; // B * cos(m_incl)
 //	float n = mag_field*0.3298f; // B * sin(m_incl)
@@ -94,7 +94,7 @@ static void MeasurementJacobian(const float* Xk,const float *Uk,void* Res){
 }
 
 void StateFunction(const float* Xk,const float *Uk,void* Res){
-	arm_matrix_instance_f32* M = (arm_matrix_instance_f32*)Res;
+	arm_matrix_instance_f32* M = static_cast<arm_matrix_instance_f32*>(Res);
 
 	Quaternion qk(Xk[0],Xk[1],Xk[2],Xk[3]);
 	Quaternion qk_w(0,Uk[0],Uk[1],Uk[2]);
@@ -112,7 +112,7 @@ M->pData[3] = qk1.v.z;
 }
 
 void MeasurementFunction(const float* Xk,const float *Uk,void* Res){
-	arm_matrix_instance_f32* M = (arm_matrix_instance_f32*)Res;
+	arm_matrix_instance_f32* M = static_cast<arm_matrix_instance_f32*>(Res);
 
 //	float m = mag_field*0.9440f; // B * cos(m_incl)
 //	float n = mag_field*0.3298f; // B * sin (m_incl)
