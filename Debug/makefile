@@ -52,7 +52,7 @@ all: K64F-Fusion2.axf
 K64F-Fusion2.axf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: MCU C++ Linker'
-	arm-none-eabi-c++ -nostdlib -L"/home/projeto/Workspace/MCU/Workspace/K64F-Fusion2/lib" -L"/home/projeto/Workspace/MCU/Workspace/K64F-Kalman/Debug" -Xlinker -Map="K64F-Fusion2.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -Xlinker --sort-section=alignment -Xlinker --cref -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -T K64F-Controle_Debug.ld -o "K64F-Fusion2.axf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-c++ -nostdlib -L"/home/marcus/Workspace/MCU/NXP/Workspace/K64F-Fusion2/lib" -L"/home/marcus/Workspace/MCU/NXP/Workspace/K64F-Kalman/Debug" -Xlinker -Map="K64F-Fusion2.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -Xlinker --sort-section=alignment -Xlinker --cref -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -T K64F-Controle_Debug.ld -o "K64F-Fusion2.axf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 	$(MAKE) --no-print-directory post-build
