@@ -90,46 +90,46 @@ int main(void) {
     ImuShield.ClearMagOffset();
 
 
-    //Covariances
-    float KQ_Qn[4*4] = {
-    		0.001, -0.0003, 0.0003, 0.0003,
-    		-0.0003,0.0001,-0.0001,-0.0001,
-    		0.0003,-0.0001,0.0001,0.0001,
-    		0.0003,-0.0001,0.0001,0.0001
-    }; //3x3 n x n
-
-    float KQ_Rn[6*6] = {
-    		0.1,0,0,0,0,0,
-    		0,0.1,0,0,0,0,
-    		0,0,0.1,0,0,0,
-    		0,0,0,2,0,0,
-    		0,0,0,0,2,0,
-    		0,0,0,0,0,3,
-    }; //3x3 out x out
-
-    float Xq[] = {1,0,0,0};
+//    //Covariances
+//    float KQ_Qn[4*4] = {
+//    		0.001, -0.0003, 0.0003, 0.0003,
+//    		-0.0003,0.0001,-0.0001,-0.0001,
+//    		0.0003,-0.0001,0.0001,0.0001,
+//    		0.0003,-0.0001,0.0001,0.0001
+//    }; //3x3 n x n
+//
+//    float KQ_Rn[6*6] = {
+//    		0.1,0,0,0,0,0,
+//    		0,0.1,0,0,0,0,
+//    		0,0,0.1,0,0,0,
+//    		0,0,0,2,0,0,
+//    		0,0,0,0,2,0,
+//    		0,0,0,0,0,3,
+//    }; //3x3 out x out
+//
+//    float Xq[] = {1,0,0,0};
 
     // Extended Kalman Filter
-    Kalman::EKF ExtFilter(4,3,6);
+//    Kalman::EKF ExtFilter(4,3,6);
 
 //    Kalman::EKF_Stack ExtFilter;
+//
+//    unsigned int k = ExtFilter.GetBytesUsed();
+//     CONTROLE_PRINT("bytes = %d\r\n",k);
 
-    unsigned int k = ExtFilter.GetBytesUsed();
-     CONTROLE_PRINT("bytes = %d\r\n",k);
 
+//    ExtFilter.SetQn(KQ_Qn);
+//    ExtFilter.SetRn(KQ_Rn);
+//    ExtFilter.SetX0(Xq);
+//    ExtFilter.SetStateFunction(AttitudeEstimation::StateFunction);
+//    ExtFilter.SetMeasurementFunction(AttitudeEstimation::MeasurementFunction);
+//    ExtFilter.SetStateJacobian(AttitudeEstimation::StateJacobian);
+//    ExtFilter.SetMeasurementJacobian(AttitudeEstimation::MeasurementJacobian);
 
-    ExtFilter.SetQn(KQ_Qn);
-    ExtFilter.SetRn(KQ_Rn);
-    ExtFilter.SetX0(Xq);
-    ExtFilter.SetStateFunction(AttitudeEstimation::StateFunction);
-    ExtFilter.SetMeasurementFunction(AttitudeEstimation::MeasurementFunction);
-    ExtFilter.SetStateJacobian(AttitudeEstimation::StateJacobian);
-    ExtFilter.SetMeasurementJacobian(AttitudeEstimation::MeasurementJacobian);
+//    Quaternion* q = (Quaternion*)ExtFilter.GetEstimatedState(); //Perigoso ? kk
 
-    Quaternion* q = (Quaternion*)ExtFilter.GetEstimatedState(); //Perigoso ? kk
-
-    float sys_input[3];
-    float sys_measure[6];
+//    float sys_input[3];
+//    float sys_measure[6];
     IMUData Accelerations;
     IMUData AngularVels;
     IMUData Mag;
@@ -155,25 +155,32 @@ int main(void) {
     	mag_field = ImuShield.GetMagField();
 
 
-
-    	sys_input[1] = (AngularVels.X ) * 15.625e-3 * PI/180.0; //wx
-    	sys_input[0] = -(AngularVels.Y ) * 15.625e-3 * PI/180.0; //wy
-    	sys_input[2] = (AngularVels.Z ) * 15.625e-3 * PI/180.0; //wz
-////
-    	sys_measure[1] = (Accelerations.X ) * 0.488e-3 * 9.80665; //ax
-    	sys_measure[0] = -(Accelerations.Y ) * 0.488e-3 * 9.80665; //ay
-    	sys_measure[2] = (Accelerations.Z ) * 0.488e-3 * 9.80665; //az
-
-    	sys_measure[4] = (Mag.X ) * 0.1; //ax
-    	sys_measure[3] = -(Mag.Y ) * 0.1; //ay
-    	sys_measure[5] = (Mag.Z ) * 0.1; //az
-
-
-    	ExtFilter.Predict(sys_input);
-    	ExtFilter.Update(sys_measure);
+//
+//    	sys_input[1] = (AngularVels.X ) * 15.625e-3 * PI/180.0; //wx
+//    	sys_input[0] = -(AngularVels.Y ) * 15.625e-3 * PI/180.0; //wy
+//    	sys_input[2] = (AngularVels.Z ) * 15.625e-3 * PI/180.0; //wz
+//////
+//    	sys_measure[1] = (Accelerations.X ) * 0.488e-3 * 9.80665; //ax
+//    	sys_measure[0] = -(Accelerations.Y ) * 0.488e-3 * 9.80665; //ay
+//    	sys_measure[2] = (Accelerations.Z ) * 0.488e-3 * 9.80665; //az
+//
+//    	sys_measure[4] = (Mag.X ) * 0.1; //ax
+//    	sys_measure[3] = -(Mag.Y ) * 0.1; //ay
+//    	sys_measure[5] = (Mag.Z ) * 0.1; //az
 
 
-    	CONTROLE_PRINT("%f %f %f %f\r\n",q->w,q->v.x,q->v.y,q->v.z);
+//    	ExtFilter.Predict(sys_input);
+//    	ExtFilter.Update(sys_measure);
+
+
+//    	CONTROLE_PRINT("%f %f %f %f\r\n",q->w,q->v.x,q->v.y,q->v.z);
+//    	CONTROLE_PRINT("%d %d %d %d %d %d %d %d %d\r\n",-Accelerations.Y,Accelerations.X,Accelerations.Z,
+//    													-AngularVels.Y,AngularVels.X,AngularVels.Z,
+//														-Mag.Y,Mag.X,Mag.Z);
+
+    	CONTROLE_PRINT("%d %d %d %d %d %d %d %d %d\n\r",Accelerations.X,Accelerations.Y,Accelerations.Z,
+    													AngularVels.X,AngularVels.Y,AngularVels.Z,
+														Mag.X,Mag.Y,Mag.Z);
 
 
     }
