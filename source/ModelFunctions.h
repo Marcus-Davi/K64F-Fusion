@@ -52,7 +52,7 @@ static void MeasurementJacobian(const float* Xk,const float *Uk,void* Res){
 	float m = mag_field*0.9440f; // B * cos(m_incl)
 	float n = mag_field*0.3298f; // B * sin(m_incl)
 
-	static const float g = 9.8;
+	static const float g = 9.8055;
 
 	M->pData[0] = -Xk[2]*g;
 	M->pData[1] = Xk[3]*g;
@@ -120,7 +120,7 @@ void MeasurementFunction(const float* Xk,const float *Uk,void* Res){
 
 	Quaternion qk(Xk[0],Xk[1],Xk[2],Xk[3]);
 	Quaternion qg(0,0,0,9.8); //gravity
-	Quaternion qm(0,m,0,n); //gravity
+	Quaternion qm(0,m,0,n); // mag field
 	Quaternion qa,qb;
 
 	qa.v = qk.RotateFrame(qg.v);

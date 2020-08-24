@@ -46,7 +46,7 @@ void STBC::Init(){
 	tx=0x22;//Hybrid AutoIncrement + Magnetic Reset.
 	FXOS->Write(FXOS_M_CTROL_REG2, &tx, 1);
 
-	tx=0x01;//0.488mg/LSB + NO HighPassFilter.
+	tx=0x01;//0.488mg/LSB + NO HighPassFilter. | 4g
 	FXOS->Write(FXOS_XYZ_DATA_CFG, &tx, 1);
 
 	tx=0b00011101;//Modo Ativo,Read Normal,Low Noise, 50 Hz.
@@ -117,6 +117,13 @@ void STBC::CalibrateGyroscope(int Samples){
 	Gyroscope_Offset.Y = My/Samples;
 	Gyroscope_Offset.Z = Mz/Samples;
 }
+
+// Os valores abaixo foram medidos alinhado o módulo com gravidade
+// MAX_Z = 2102 | MIN_Z = -1935
+// MAX_X = 2082 | MIN_X = 1991
+// MAX_Y = 2009 | MIN_Y = 2070
+
+
 
 void STBC::CalibrateAccelerometer(int Samples){
 	long int MAx=0,MAy=0,MAz = 0;
